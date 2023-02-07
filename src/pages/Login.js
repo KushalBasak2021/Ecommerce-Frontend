@@ -102,7 +102,7 @@ const Login = () => {
             LOGIN
           </Button>
           {error && <Error>Something went wrong</Error>}
-          <Link to="/register">
+          <Link to="/register" className="link">
             <StaticLink>CREATE A NEW ACCOUNT</StaticLink>
           </Link>
         </Form>
