@@ -10,6 +10,7 @@ import { removeItemToCart, setItemToCart } from "../redux/cartRedux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Logout } from "../redux/apiCalls";
 
 const Container = styledComponents.div``;
 const Loader = styledComponents.div`
@@ -210,7 +211,9 @@ const Cart = () => {
           setOrderTotal(res.data[0].amount);
         }
       } catch (err) {
-        console.log(err.message);
+        if (err.response.status === 403) {
+          Logout(dispatch);
+        }
       }
     };
 
@@ -218,7 +221,7 @@ const Cart = () => {
       getCartItem();
       getOrder();
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   // console.log(cart);
 

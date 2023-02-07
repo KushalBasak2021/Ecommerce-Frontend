@@ -3,11 +3,12 @@ import styledComponents from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { mobile } from "../responsive";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Logout } from "../redux/apiCalls";
 
 const Container = styledComponents.div``;
 const Loader = styledComponents.div`
@@ -133,7 +134,7 @@ const Order = () => {
   const [products, setProducts] = useState([]);
   const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(true);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getOrder = async () => {
@@ -155,14 +156,16 @@ const Order = () => {
           });
         }
       } catch (err) {
-        console.log(err.message);
+        if (err.response.status === 403) {
+          Logout(dispatch);
+        }
       }
     };
 
     if (user) {
       getOrder();
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   return (
     <Container>
