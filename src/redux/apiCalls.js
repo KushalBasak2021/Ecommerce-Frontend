@@ -17,4 +17,5 @@ export const login = async (dispatch, user) => {
 
 export const Logout = async (dispatch) => {
   dispatch(logout());
+  window.location.href = "/";
 };
